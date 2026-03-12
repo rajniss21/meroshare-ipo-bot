@@ -1,0 +1,25 @@
+{
+  "name": "playwright_base_framework",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^22.10.7",
+    "allure-js-commons": "^3.2.1",
+    "allure-playwright": "^3.4.5"
+  },
+  "scripts": {
+    "test": "playwright test --trace on",
+    "test:debug": "playwright test --debug",
+    "report": "playwright show-report",
+    "codegen": "playwright codegen --load-storage=playwright/.auth/user.json",
+    "lint": "eslint .",
+    "view-allure-reports": "allure generate allure-results -o allure-report --clean && allure open allure-report"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^9.4.0",
+    "dotenv": "^16.4.7",
+    "faker": "^5.5.3"
+  }
+}

@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".", // This must be specified if "paths" is.
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "lib": [
+            "ES2015",
+            "dom"
+        ],
+        "paths": {
+            "@/*": [
+                "src/*"
+            ]
+        }
+    }
+}
