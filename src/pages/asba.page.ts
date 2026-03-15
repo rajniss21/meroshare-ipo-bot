@@ -57,6 +57,15 @@ export class AsbaPage {
             proceedButton: page.getByRole('button', { name: 'Proceed' }),
             pinInput: page.locator('#transactionPIN'),
             confirmPinButton: page.getByRole('button', { name: 'Apply' }),
+
+            // Application report
+            applicationReportTable: page.locator('.table'),
+            applicationRows: page.locator('.table tbody tr'),
+            noDataMessage: page.locator('.empty-msg'),
+
+            // Toasts
+            toastMessage: page.locator('.toast-message'),
+            successMessage: page.locator('.toast-success .toast-message'),
         };
     }
 
