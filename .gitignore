@@ -15,7 +15,6 @@ yarn-error.log
 allure-report
 allure-results
 .DS_Store
-package-lock.json
 
 bun.lockb
 bun.lock
