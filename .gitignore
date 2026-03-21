@@ -23,3 +23,5 @@ bun.lock
 .github
 .vscode
 specs/
+tests/seed/specs.ts
+
