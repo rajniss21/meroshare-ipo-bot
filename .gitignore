@@ -20,8 +20,10 @@ package-lock.json
 bun.lockb
 bun.lock
 
-.github
+.github/agents/
+.github/workflows/copilot-setup-steps.yml
+
 .vscode
 specs/
-tests/seed/specs.ts
+src/tests/seed.spec.ts
 

@@ -1,0 +1,37 @@
+name: Meroshare IPO Bot
+
+on:
+  schedule:
+    - cron: '15 4 * * 1-5' # runs at 10:00 AM NPT (4:15 UTC), Monday to Friday
+  workflow_dispatch: # allows manual trigger from GitHub UI
+
+jobs:
+  run-ipo-bot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: dev # your branch
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run IPO bot
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+          DP_ID: ${{ secrets.DP_ID }}
+          MS_USERNAME: ${{ secrets.MS_USERNAME }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          CRN_NUMBER: ${{ secrets.CRN_NUMBER }}
+          TRANSACTION_PIN: ${{ secrets.TRANSACTION_PIN }}
+        run: npx playwright test
