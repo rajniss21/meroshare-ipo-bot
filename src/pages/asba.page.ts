@@ -2,6 +2,8 @@ import { expect, Locator, Page } from '@playwright/test';
 
 export class AsbaPage {
   readonly page: Page;
+  readonly crnNumber: string;
+  readonly transactionPin: string;
   readonly elements: {
     myApplicationTab: Locator;
     newApplicationSection: Locator;
@@ -31,6 +33,8 @@ export class AsbaPage {
 
   constructor(page: Page) {
     this.page = page;
+    this.crnNumber = process.env.CRN_NUMBER || '';
+    this.transactionPin = process.env.TRANSACTION_PIN || '';
     this.elements = {
       myApplicationTab: page.locator('a[routerlink="applicant/application-report"]'),
       newApplicationSection: page.locator('a[routerlink="applicant/apply"]'),
@@ -64,19 +68,26 @@ export class AsbaPage {
     await this.page.waitForLoadState('networkidle');
   }
 
-  async clickOnApplyButton() {
+async clickOnApplyButtonForType(): Promise<boolean> {
+  const shareGroup = await this.page.locator('.company-list .isin').innerText();
+  if (shareGroup.trim().toLowerCase() === 'ordinary share') {
     await this.elements.applyButton.click();
-    await this.page.waitForLoadState('networkidle');
+    return true;
+  } else {
+    console.log(`Skipping apply, share group is: "${shareGroup}"`);
+    return false;
   }
+}
+
   async fillApplicationForm() {
     await this.elements.bankDropdown.click();
     await this.elements.bankOption.selectOption('59');
     await this.elements.accountNumber.selectOption('02616766840');
     await this.elements.appliedKitta.fill('10');
-    await this.elements.crnInput.fill('123456789');
+    await this.elements.crnInput.fill(this.crnNumber);
     await this.elements.disclaimerCheckbox.check();
     await this.elements.proceedButton.click();
-    await this.elements.pinInput.fill('1234');
+    await this.elements.pinInput.fill(this.transactionPin);
     await this.elements.confirmPinButton.click();
   }
 }
