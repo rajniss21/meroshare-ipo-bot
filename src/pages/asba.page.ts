@@ -112,6 +112,6 @@ async clickOnApplyButtonForType(): Promise<boolean> {
     await this.elements.disclaimerCheckbox.check();
     await this.elements.proceedButton.click();
     await this.elements.pinInput.fill(this.transactionPin);
-    //await this.elements.confirmPinButton.click();
+    await this.elements.confirmPinButton.click();
   }
 }
