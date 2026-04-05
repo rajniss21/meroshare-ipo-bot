@@ -69,14 +69,38 @@ export class AsbaPage {
   }
 
 async clickOnApplyButtonForType(): Promise<boolean> {
-  const shareGroup = await this.page.locator('.company-list .isin').innerText();
-  if (shareGroup.trim().toLowerCase() === 'ordinary share') {
-    await this.elements.applyButton.click();
-    return true;
-  } else {
+  // Get all company list rows
+  const rows = await this.page.locator('.company-list [class*="row"]').all();
+  
+  // If no rows found, try alternative selector
+  if (rows.length === 0) {
+    const shareGroup = await this.page.locator('.company-list .isin').innerText();
+    const lowerText = shareGroup.trim().toLowerCase();
+    if (lowerText.includes('ordinary')) {
+      await this.elements.applyButton.first().click();
+      return true;
+    }
     console.log(`Skipping apply, share group is: "${shareGroup}"`);
     return false;
   }
+
+  // Loop through each row to find ordinary share
+  for (const row of rows) {
+    const shareTypeElement = row.locator('.isin, [class*="share"], [class*="type"]');
+    const shareGroup = await shareTypeElement.innerText().catch(() => '');
+    const lowerText = shareGroup.trim().toLowerCase();
+    
+    if (lowerText.includes('ordinary')) {
+      const applyBtn = row.locator('button:has-text("Apply")');
+      await applyBtn.click();
+      console.log(`Applied for ordinary share: ${shareGroup}`);
+      return true;
+    } else if (lowerText) {
+      console.log(`Skipping share type: "${shareGroup}"`);
+    }
+  }
+
+  return false;
 }
 
   async fillApplicationForm() {
@@ -88,6 +112,6 @@ async clickOnApplyButtonForType(): Promise<boolean> {
     await this.elements.disclaimerCheckbox.check();
     await this.elements.proceedButton.click();
     await this.elements.pinInput.fill(this.transactionPin);
-    await this.elements.confirmPinButton.click();
+    //await this.elements.confirmPinButton.click();
   }
 }
