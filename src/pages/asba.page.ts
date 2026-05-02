@@ -116,7 +116,7 @@ async clickOnApplyButtonForType(): Promise<boolean> {
 
       const hasGeneralPublic = subGroupLower.includes('for general public');
       const hasIPOType       = shareTypeLower.includes('ipo');
-      const hasOrdinaryShare = shareGroupLower.includes('ordinary');
+      const hasOrdinaryShare = shareGroupLower.includes('ordinary shares');
 
       if (hasGeneralPublic && hasIPOType && hasOrdinaryShare) {
         // Confirm the Apply button is visible before clicking
@@ -159,7 +159,6 @@ async clickOnApplyButtonForType(): Promise<boolean> {
   async fillApplicationForm() {
     await this.elements.bankDropdown.click();
     await this.elements.bankOption.selectOption('59');
-    // await this.elements.accountNumber.waitFor({ state: 'visible' });
     await this.elements.accountNumber.selectOption({ index: 1 });
     await this.elements.appliedKitta.fill('10');
     await this.elements.crnInput.fill(this.crnNumber);
