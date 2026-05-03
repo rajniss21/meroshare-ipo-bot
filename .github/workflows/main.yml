@@ -41,4 +41,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
-          path: playwright-report/Show less9:35 PMClaude responded: The file is perfectly fine — MS_USERNAME is correct and upload steps are there.The file is perfectly fine — MS_USERNA
+          path: playwright-report/
